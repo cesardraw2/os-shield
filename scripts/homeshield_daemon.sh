@@ -4,6 +4,11 @@
 # PROPÓSITO: Daemon Resiliente de Monitoramento e Integridade do OS-SHIELD
 # ==============================================================================
 
+# TRAVA DE SEGURANÇA: Só executa se o Wizard de instalação concluiu com sucesso
+if [ ! -f "$HOME/.os_shield_install_success" ]; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [CRÍTICO] Daemon abortado! A instalação oficial do OS-SHIELD não foi concluída." >> "$(dirname "$0")/../logs/daemon_error.log"
+    exit 1
+fi
 # 1. IMPORTAÇÃO DINÂMICA DA CONFIGURAÇÃO CENTRAL
 CONFIG_FILE="$(dirname "$0")/../configs/shield.conf"
 if [ -f "$CONFIG_FILE" ]; then
@@ -50,6 +55,13 @@ done
 # Executa de forma silenciosa o corretor para manter o usuário dono dos seus dados
 if [ -f "$(dirname "$0")/env_fix_permissions.sh" ]; then
     $(dirname "$0")/env_fix_permissions.sh > /dev/null 2>&1
+fi
+
+# 5. GOVERNANÇA PREDITIVA DE IA (JARVIS)
+if [ -f "$(dirname "$0")/jarvis_governance.sh" ]; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [JARVIS] Iniciando rastreio heurístico de Inteligência Artificial..." >> "$LOG_FILE"
+    # Executa o Jarvis repassando todos os argumentos (como o --dry-run se houver)
+    $(dirname "$0")/jarvis_governance.sh "$@" >> "$LOG_FILE" 2>&1
 fi
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] [SUCESSO] Auditoria concluída. Sistema está íntegro e estável." >> "$LOG_FILE"
