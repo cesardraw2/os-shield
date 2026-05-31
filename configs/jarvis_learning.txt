@@ -1,0 +1,13 @@
+# ==============================================================================
+# OS-SHIELD JARVIS LEARNING (FEW-SHOT PROMPTING MEMORY)
+# ==============================================================================
+# Use este arquivo para "ensinar" a Inteligência Artificial.
+# O Ollama lerá estas instruções antes de tomar uma decisão, ajustando o comportamento
+# sem precisar de re-treinamento de modelo (Fine-Tuning).
+#
+# Formato: Simplesmente descreva o que o modelo deve fazer.
+#
+# Exemplos de aprendizado atuais:
+- Pastas chamadas 'TESTE_001', 'temp', ou semelhantes são lixo. Classifique como HD.
+- Pastas com prefixos '.' (como .wine, .cache) quase sempre são arquivos de sistema ou configurações. Classifique como SSD.
+- Pastas chamadas 'Games' ou 'Jogos' ocupam muito espaço e não precisam de boot ultra-rápido. Classifique como HD.
