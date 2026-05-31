@@ -23,3 +23,4 @@ configs/passo_realizados.txt
 .vscode/
 *.swp
 configs/shield.conf
+logs/
