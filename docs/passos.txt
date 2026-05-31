@@ -1,0 +1,45 @@
+passo para montar as ferramenats da tooplbox antes de executar. estou recriando com o gemini.
+
+
+[FASE 1: DOCUMENTAÇÃO & BASE DE FERRO]
+                 │
+                 ▼
+     Edição e Validação do /etc/fstab
+(Comentários descritivos e preparação do mapa)
+                 │
+                 ▼
+[FASE 2: SANEAMENTO PRÉ-MIGRAÇÃO]
+                 │
+                 ▼
+    Faxina de Caches com BleachBit/Nativo
+   (Reduz o I/O e o estresse mecânico no HD)
+                 │
+                 ▼
+[FASE 3: TRANSFERÊNCIA DOS DADOS BRUTOS]
+                 │
+                 ▼
+     Execução Corrigida do Lote 1 (rsync)
+                 │
+                 ▼
+     Execução Corrigida do Lote 2 (rsync)
+                 │
+                 ▼
+     Execução Corrigida do Lote 3 (rsync)
+                 │
+                 ▼
+[FASE 4: CONSOLIDAÇÃO LOGÍSTICA]
+                 │
+                 ▼
+  Criação da Malha de Links Simbólicos (SSD ⇄ HD)
+                 │
+                 ▼
+[FASE 5: ATIVAÇÃO DE DAEMONS E BACKUPS]
+                 │
+                 ▼
+   Ativação do HomeShield (.service/.timer)
+                 │
+                 ▼
+      Primeiro Snapshot Local dos Links
+                 │
+                 ▼
+      Sincronização Cloud com o Rclone

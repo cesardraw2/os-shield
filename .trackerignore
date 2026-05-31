@@ -1,0 +1,6 @@
+# Gerado Automaticamente pelo Antigravity OS-SHIELD
+logs/
+snapshots_config/
+scripts/tmp/
+*.log
+*.bak

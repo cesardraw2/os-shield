@@ -1,0 +1,19 @@
+# ==============================================================================
+# ANTIGRAVITY OS-SHIELD - CONFIGURAÇÃO TEMPLATE (MUDAR PARA O SEU AMBIENTE)
+# ==============================================================================
+
+# Caminho absoluto do ponto de montagem do seu HD Secundário
+HD_DESTINO="/mnt/seu_hd_secundario"
+
+# Nome do dispositivo remoto configurado no seu Rclone para Backup Cloud
+RCLONE_REMOTE="seu_provedor_cloud:nome_da_pasta"
+
+# Array de pastas na sua Home que serão gerenciadas e migradas para o HD
+PASTAS_ALVO=(
+    "desenv"
+    "Downloads"
+    "Imagens"
+    "Vídeos"
+    ".npm"
+    ".nvm"
+)

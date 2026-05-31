@@ -1,0 +1,14 @@
+[Unit]
+Description=Shield Home - Daemon de Monitoramento e Isolamento do SSD
+After=mnt-hd_novo.mount
+
+[Service]
+Type=Simple
+ExecStart=/mnt/hd_novo/toolbox/scripts/homeshield_daemon.sh
+User=cesardraw
+Group=cesardraw
+Environment=DISPLAY=:0
+XAUTHORITY=/home/cesardraw/.Xauthority
+
+[Install]
+WantedBy=multi-user.target

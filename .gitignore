@@ -1,0 +1,25 @@
+# ==============================================================================
+# GITIGNORE: ANTIGRAVITY OS-SHIELD (OPEN SOURCE POLICY)
+# ==============================================================================
+
+# Caches e arquivos temporários do sistema
+.cache/
+*.tmp
+*.log
+*.bak
+
+# Logs operacionais locais (Não devem ir a público)
+logs/
+scripts/tmp/
+
+# Snapshots de configuração da máquina do desenvolvedor (Contém caminhos locais)
+snapshots_config/
+configs/fstab.txt
+configs/passo_realizados.txt
+
+# Arquivos ocultos de OS ou IDEs locais
+.DS_Store
+.idea/
+.vscode/
+*.swp
+configs/shield.conf

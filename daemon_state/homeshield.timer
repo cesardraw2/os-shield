@@ -1,0 +1,12 @@
+[Unit]
+Description=Timer para o Daemon Shield Home (Monitoramento a cada 15min)
+
+[Timer]
+# Espera 2 minutos após o boot para rodar a primeira vez
+OnBootSec=2min
+# Depois da primeira execução, roda a cada 15 minutos cravados
+OnUnitActiveSec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
