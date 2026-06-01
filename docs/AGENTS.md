@@ -3,9 +3,9 @@
 Este arquivo define os limites operacionais, formatos de resposta e restrições de segurança para QUALQUER agente autônomo de IA que interaja com este ecossistema de manutenção.
 
 ## 🛑 STRICT RESTRICTIONS (O que você NÃO PODE fazer)
-1. **Never Touch `/dev/sda1` Without Consent**: A partição `sda1` é o nosso cold-backup de segurança. Nenhuma automação de escrita ou exclusão pode rodar nela.
+1. **Never Touch Non-Target Partitions Without Consent**: Nenhuma partição fora do escopo definido (`$HD_DESTINO` ou sua `/home`) deve ser manipulada. O sistema operacional base ou partições de backup frio de outros usuários são intocáveis.
 2. **No Blind Fstab Modification**: Alterações no arquivo `/etc/fstab` exigem validação prévia de UUID via `blkid` e geração de um arquivo `.bak` antes da escrita.
-3. **No Raw Direct Deletions**: Substitua comandos destrutivos (`rm -rf`) em diretórios mapeados por movimentações para uma pasta temporária de descarte (`/mnt/hd_novo/trash/`).
+3. **No Raw Direct Deletions**: Substitua comandos destrutivos (`rm -rf`) em diretórios mapeados por movimentações para uma pasta temporária de descarte (`$HD_DESTINO/trash/`).
 
 ## 🛠️ MANDATORY PROCEDURES (O que você DEVE fazer)
 1. **Symlink Validation**: Antes de assumir que uma pasta existe na Home, verifique se ela é um link simbólico válido usando `test -L /caminho/`.
