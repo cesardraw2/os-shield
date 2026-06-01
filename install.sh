@@ -15,6 +15,27 @@ PADRAO="\033[0m"
 
 echo -e "${CIANO}--- INICIANDO WIZARD DE INSTALAÇÃO DO OS-SHIELD ${APP_VERSION} ---${PADRAO}"
 
+# 0. Verificação de Dependências
+DEPENDENCIAS=("zenity" "rsync" "bleachbit")
+FALTANTES=()
+for cmd in "${DEPENDENCIAS[@]}"; do
+    if ! command -v "$cmd" &> /dev/null; then
+        FALTANTES+=("$cmd")
+    fi
+done
+
+if [ ${#FALTANTES[@]} -ne 0 ]; then
+    echo -e "${AMARELO}[!] Dependências ausentes detectadas: ${FALTANTES[*]}${PADRAO}"
+    echo -e "${CIANO}[*] Instalando dependências nativas via APT...${PADRAO}"
+    sudo apt-get update && sudo apt-get install -y "${FALTANTES[@]}"
+fi
+
+if ! command -v ollama &> /dev/null; then
+    echo -e "${AMARELO}[!] Ollama (Engine de IA) não detectado.${PADRAO}"
+    echo -e "${CIANO}[*] Baixando e instalando Ollama...${PADRAO}"
+    curl -fsSL https://ollama.com/install.sh | sh
+fi
+
 RECONFIGURE_MODE=0
 if [ "$1" == "--reconfigure-timer" ]; then
     RECONFIGURE_MODE=1
@@ -53,8 +74,21 @@ TIMER_FILE="$(dirname "$0")/daemon_state/homeshield.timer"
 sed -i "s/^OnUnitActiveSec=.*/OnUnitActiveSec=$CHOICE/" "$TIMER_FILE"
 sed -i "s/^Description=.*/Description=Timer para o Daemon Shield Home (Monitoramento a cada $CHOICE)/" "$TIMER_FILE"
 
-# 3. Configuração de Destino de Backup (Se não existir)
-SHIELD_CONF="$(dirname "$0")/configs/shield.conf"
+# 3. Configuração de Destino de Backup e Mount Point
+SHIELD_CONF="$(dirname "$(realpath "$0")")/configs/shield.conf"
+
+# 3.1 Definição do Mount Point Dinâmico (HD Secundário)
+if ! grep -q "HD_DESTINO=" "$SHIELD_CONF" 2>/dev/null || grep -q "HD_DESTINO=\"/mnt/seu_hd_secundario\"" "$SHIELD_CONF" 2>/dev/null; then
+    zenity --info --title="Configuração de Armazenamento" --text="Precisamos saber onde o seu HD Secundário está montado.\n\nNa próxima tela, selecione a pasta raiz do seu HD (ex: /mnt/dados, /media/hd, etc)." --width=450
+    HD_DIR=$(zenity --file-selection --directory --title="Selecione o Mount Point do HD Secundário")
+    if [ -n "$HD_DIR" ]; then
+        # Atualiza ou insere o HD_DESTINO
+        sed -i "/^HD_DESTINO=/d" "$SHIELD_CONF"
+        echo -e "HD_DESTINO=\"$HD_DIR\"" | cat - "$SHIELD_CONF" > temp && mv temp "$SHIELD_CONF"
+    fi
+fi
+
+# 3.2 Destino do Backup Automático
 if ! grep -q "BACKUP_DESTINATION=" "$SHIELD_CONF" 2>/dev/null; then
     zenity --info --title="Backup da Home" --text="A partir desta versão, o OS-SHIELD pode fazer Snapshots automáticos de segurança da sua Home.\n\nNa próxima tela, selecione a pasta onde quer guardar os backups." --width=400
     BKP_DIR=$(zenity --file-selection --directory --title="Escolha o diretório para os Snapshots")
@@ -69,8 +103,13 @@ fi
 USER_SYSTEMD_DIR="$HOME/.config/systemd/user"
 mkdir -p "$USER_SYSTEMD_DIR"
 rm -f "$USER_SYSTEMD_DIR/homeshield.service" "$USER_SYSTEMD_DIR/homeshield.timer"
-cp "$(dirname "$0")/daemon_state/homeshield.service" "$USER_SYSTEMD_DIR/"
-cp "$(dirname "$0")/daemon_state/homeshield.timer" "$USER_SYSTEMD_DIR/"
+
+# Corrige o caminho absoluto do daemon_state para a pasta real antes de copiar
+ABSOLUTE_PATH="$(dirname "$(realpath "$0")")"
+sed -i "s|ExecStart=.*|ExecStart=$ABSOLUTE_PATH/scripts/homeshield_daemon.sh|" "$ABSOLUTE_PATH/daemon_state/homeshield.service"
+
+cp "$ABSOLUTE_PATH/daemon_state/homeshield.service" "$USER_SYSTEMD_DIR/"
+cp "$ABSOLUTE_PATH/daemon_state/homeshield.timer" "$USER_SYSTEMD_DIR/"
 
 systemctl --user daemon-reload
 

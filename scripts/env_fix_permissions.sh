@@ -4,8 +4,13 @@
 # PROPÓSITO: Ajuste cirúrgico de permissões de Dev e Mídias
 # ==============================================================================
 
-TARGET="/mnt/hd_novo"
-USUARIO="cesardraw"
+SHIELD_CONF="$(dirname "$0")/../configs/shield.conf"
+if [ -f "$SHIELD_CONF" ]; then
+    source "$SHIELD_CONF"
+fi
+
+TARGET="${HD_DESTINO:-/mnt/seu_hd_secundario}"
+USUARIO="${TARGET_USER:-seu_usuario}"
 
 echo -e "\033[1;33m[!] Corrigindo governança de proprietários no HD Novo...\033[0m"
 

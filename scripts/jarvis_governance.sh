@@ -9,7 +9,7 @@ if [ -f "$CONFIG_FILE" ]; then
     source "$CONFIG_FILE"
 fi
 
-HD_DESTINO="${HD_DESTINO:-/mnt/hd_novo}"
+HD_DESTINO="${HD_DESTINO:-/mnt/seu_hd_secundario}"
 CACHE_SSD="$HOME/.jarvis_cache_ssd"
 CACHE_HD="$HOME/.jarvis_cache_hd"
 HITL_INBOX="$HOME/.jarvis_hitl_review.txt"
