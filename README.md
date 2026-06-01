@@ -143,7 +143,7 @@ systemctl --user status homeshield.timer
 Ler os Logs de Auditoria do Daemon:
 
 ```bash
-cat /mnt/hd_novo/toolbox/logs/homeshield.log
+cat /caminho/do/seu/hd/toolbox/logs/homeshield.log
 ```
 
 ## 📄 Licença
