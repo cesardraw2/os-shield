@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# ANTIGRAVITY OS-SHIELD - HOMESHIELD DAEMON / LINKS SETUP
+# OS-SHIELD - HOMESHIELD DAEMON / LINKS SETUP
 # ==============================================================================
 
 APP_VERSION="v4.2.0"
@@ -30,7 +30,7 @@ if [ "$1" != "--silent-install" ] && [ ! -f "$HOME/.os_shield_install_success" ]
     exit 1
 fi
 
-echo -e "${VERDE}--- ANTIGRAVITY OS-SHIELD: INICIANDO PAINEL DE GOVERNANÇA ---${PADRAO}"
+echo -e "${VERDE}--- OS-SHIELD: INICIANDO PAINEL DE GOVERNANÇA ---${PADRAO}"
 
 # ==============================================================================
 # MÓDULO 1: SELEÇÃO DE PARTICIONAMENTO AVANÇADO
@@ -59,16 +59,16 @@ abrir_particionador_avancado() {
 
     case "$CHOICE" in
         "GParted")
-            zenity --info --text="Abrindo o GParted. O Antigravity OS reoxigenará o mapa de discos assim que a ferramenta foi fechada." --width=400
+            zenity --info --text="Abrindo o GParted. O OS-SHIELD reoxigenará o mapa de discos assim que a ferramenta foi fechada." --width=400
             pkexec gparted
             ;;
         "CFdisk")
             zenity --info --text="Abrindo o CFdisk em uma nova janela isolada do Terminator." --width=400
-            terminator --title="Antigravity OS - CFdisk" -e "sudo cfdisk"
+            terminator --title="OS-SHIELD - CFdisk" -e "sudo cfdisk"
             ;;
         "Parted")
             zenity --info --text="Abrindo o GNU Parted em uma nova janela do Terminator." --width=400
-            terminator --title="Antigravity OS - GNU Parted" -e "sudo parted"
+            terminator --title="OS-SHIELD - GNU Parted" -e "sudo parted"
             ;;
         *)
             echo -e "${AMARELO}[!] Operação de particionamento cancelada pelo usuário.${PADRAO}"
@@ -85,7 +85,7 @@ executar_limpeza_caches() {
         OPTIONS+=(TRUE "BleachBit (GUI)" "Interface completa do BleachBit. Limpa navegadores, Telegram e logs antigos.")
         OPTIONS+=(FALSE "BleachBit (CLI Rápido)" "Limpeza silenciosa via terminal dos maiores vilões de cache do sistema.")
     fi
-    OPTIONS+=(FALSE "Antigravity Native Clean" "Limpeza direta e manual das pastas temporárias mapeadas na nossa arquitetura.")
+    OPTIONS+=(FALSE "OS-SHIELD Native Clean" "Limpeza direta e manual das pastas temporárias mapeadas na nossa arquitetura.")
 
     CHOICE=$(zenity --list --radiolist --title="OS-SHIELD ${APP_VERSION} - Limpeza e Otimização" \
         --column="Seleção" --column="Método" --column="Descrição" \
@@ -100,7 +100,7 @@ executar_limpeza_caches() {
             bleachbit --clean system.cache system.tmp deepscan.thumbs chromium.cache browser.cache
             zenity --info --text="Limpeza via BleachBit CLI concluída com sucesso!" --width=300
             ;;
-        "Antigravity Native Clean")
+        "OS-SHIELD Native Clean")
             if zenity --question --title="Confirmação de Faxina" \
                 --text="Deseja apagar os caches de mídia do Telegram e navegadores de forma nativa? (Suas contas NÃO serão deslogadas)" --width=400; then
                 
@@ -172,7 +172,7 @@ INNER_EOF
     # Proteção da própria Toolbox
     if [ -d "$HD_DESTINO/toolbox" ]; then
         cat << 'INNER_EOF' > "$HD_DESTINO/toolbox/.trackerignore"
-# Gerado Automaticamente pelo Antigravity OS-SHIELD
+# Gerado Automaticamente pelo OS-SHIELD
 logs/
 snapshots_config/
 scripts/tmp/
@@ -181,7 +181,7 @@ scripts/tmp/
 INNER_EOF
     fi
 
-    zenity --info --title="Antigravity OS" --text="Estrutura de links e políticas de indexação (.trackerignore) atualizadas com sucesso!" --width=450
+    zenity --info --title="OS-SHIELD" --text="Estrutura de links e políticas de indexação (.trackerignore) atualizadas com sucesso!" --width=450
 }
 
 # ==============================================================================
@@ -401,7 +401,7 @@ while true; do
             abrir_particionador_avancado
             ;;
         "9"|"")
-            echo -e "${CIANO}[*] Fechando o Painel de Controle Antigravity OS. Até a próxima!${PADRAO}"
+            echo -e "${CIANO}[*] Fechando o Painel de Controle OS-SHIELD. Até a próxima!${PADRAO}"
             break
             ;;
     esac

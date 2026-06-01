@@ -1,4 +1,4 @@
-# 🛠️ OS-SHIELD (Antigravity HomeShield)
+# 🛠️ OS-SHIELD
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Bash Shell](https://img.shields.io/badge/shell-bash-4eed1c.svg)](https://www.gnu.org/software/bash/)
