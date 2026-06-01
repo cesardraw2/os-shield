@@ -263,6 +263,12 @@ gerenciar_whitelist_manual() {
                 --width=400)
             
             if [ -n "$NOVA_PASTA" ]; then
+                # Sanitização de Segurança: Bloqueia injeção de código
+                if [[ ! "$NOVA_PASTA" =~ ^[a-zA-Z0-9_\.\-]+$ ]]; then
+                    zenity --error --title="Nome Inválido" --text="O nome da pasta contém caracteres especiais ou espaços não permitidos por questões de segurança.\nUse apenas letras, números, pontos ou traços." --width=400
+                    continue
+                fi
+                
                 # Valida se já existe
                 if grep -q "\"$NOVA_PASTA\"" "$SHIELD_CONF"; then
                     zenity --error --title="Duplicidade" --text="A pasta '$NOVA_PASTA' já está protegida!" --width=350
